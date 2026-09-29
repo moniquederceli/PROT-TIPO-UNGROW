@@ -60,11 +60,39 @@ public class PlayerHealth : MonoBehaviour
     }
 
     public void Die()
-    {
-        Debug.Log("PLAYER MORREU!");
+{
+    Debug.Log("PLAYER MORREU!");
 
+    if (CheckpointManager.Instance != null &&
+        CheckpointManager.Instance.TemCheckpoint())
+    {
+        RespawnAtCheckpoint();
+    }
+    else
+    {
         SceneManager.LoadScene(
             SceneManager.GetActiveScene().name
         );
     }
+}
+
+void RespawnAtCheckpoint()
+{
+    transform.position =
+        CheckpointManager.Instance.GetCheckpointPosition();
+
+    Rigidbody2D rb = GetComponent<Rigidbody2D>();
+
+    if (rb != null)
+        rb.linearVelocity = Vector2.zero;
+
+    CheckpointManager.Instance.RestaurarCamera(
+        Camera.main
+    );
+
+    currentHealth = maxHealth;
+    canTakeDamage = true;
+
+    Debug.Log("Player voltou para o checkpoint!");
+}
 }
