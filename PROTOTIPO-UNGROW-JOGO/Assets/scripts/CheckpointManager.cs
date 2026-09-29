@@ -4,31 +4,23 @@ public class CheckpointManager : MonoBehaviour
 {
     public static CheckpointManager Instance;
 
-    public Transform checkpoint;
-
-    private bool checkpointAtivo = false;
-
+    private Transform checkpoint;
     private Vector3 cameraPosition;
-    private bool cameraSalva = false;
+    private bool checkpointAtivo = false;
 
     void Awake()
     {
         Instance = this;
     }
 
-    public void AtivarCheckpoint(
-        Transform novoCheckpoint,
-        Camera camera
-    )
+    public void AtivarCheckpoint(Transform novoCheckpoint)
     {
         checkpoint = novoCheckpoint;
-        checkpointAtivo = true;
 
-        if (camera != null)
-        {
-            cameraPosition = camera.transform.position;
-            cameraSalva = true;
-        }
+        // Guarda a posição da câmera antes da transição para o Boss
+        cameraPosition = Camera.main.transform.position;
+
+        checkpointAtivo = true;
 
         Debug.Log("Checkpoint ativado!");
     }
@@ -43,11 +35,11 @@ public class CheckpointManager : MonoBehaviour
         return checkpoint.position;
     }
 
-    public void RestaurarCamera(Camera camera)
+    public void RestaurarCamera()
     {
-        if (camera != null && cameraSalva)
+        if (Camera.main != null)
         {
-            camera.transform.position = cameraPosition;
+            Camera.main.transform.position = cameraPosition;
         }
     }
 }

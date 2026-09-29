@@ -4,53 +4,68 @@ using UnityEngine.UI;
 
 public class LivesUI : MonoBehaviour
 {
-    public Image flower1;
-    public Image flower2;
-    public Image flower3;
+    public Image[] flowers;
 
-    public float deathAnimationTime = 0.3f;
+    public float deathAnimationTime = 0.6f;
 
-    private int lives = 3;
+    private int currentLife;
 
-    public void LoseLife()
+    void Start()
     {
-        if (lives <= 0)
-            return;
-
-        lives--;
-
-        Image flower = null;
-
-        if (lives == 2)
-        {
-            flower = flower3;
-        }
-        else if (lives == 1)
-        {
-            flower = flower2;
-        }
-        else if (lives == 0)
-        {
-            flower = flower1;
-        }
-
-        if (flower != null)
-        {
-            Animator animator = flower.GetComponent<Animator>();
-
-            if (animator != null)
-            {
-                animator.SetTrigger("Die");
-            }
-
-            StartCoroutine(HideFlowerAfterAnimation(flower));
-        }
+        currentLife = flowers.Length;
     }
 
-    IEnumerator HideFlowerAfterAnimation(Image flower)
+    public void LoseLife()
+{
+    Debug.Log("LOSE LIFE FOI CHAMADO!");
+
+    if (currentLife <= 0)
+    {
+        Debug.Log("NÃO HÁ MAIS VIDAS!");
+        return;
+    }
+
+    currentLife--;
+
+    Debug.Log("VIDAS RESTANTES: " + currentLife);
+
+    Image flower = flowers[currentLife];
+
+    Debug.Log("FLOR ESCOLHIDA: " + flower.name);
+
+    Animator animator = flower.GetComponent<Animator>();
+
+    if (animator != null)
+    {
+        Debug.Log("ANIMATOR ENCONTRADO NA FLOR!");
+
+        animator.SetTrigger("Die");
+
+        Debug.Log("TRIGGER DIE ENVIADO!");
+    }
+    else
+    {
+        Debug.LogError("A FLOR NÃO POSSUI ANIMATOR!");
+    }
+
+    StartCoroutine(RemoveFlowerAfterAnimation(flower));
+}
+    IEnumerator RemoveFlowerAfterAnimation(Image flower)
     {
         yield return new WaitForSecondsRealtime(deathAnimationTime);
 
         flower.gameObject.SetActive(false);
+    }
+
+    public void ResetLives()
+    {
+        currentLife = flowers.Length;
+
+        foreach (Image flower in flowers)
+        {
+            flower.gameObject.SetActive(true);
+        }
+
+        Debug.Log("Vidas restauradas!");
     }
 }

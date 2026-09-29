@@ -5,7 +5,6 @@ public class BossTrigger : MonoBehaviour
 {
     [Header("Boss")]
     public Transform bossSpawn;
-    public Transform bossCheckpoint;
 
     [Header("Camera")]
     public Camera mainCamera;
@@ -29,15 +28,6 @@ public class BossTrigger : MonoBehaviour
 
         activated = true;
 
-        // Ativa o checkpoint
-        if (CheckpointManager.Instance != null)
-        {
-            CheckpointManager.Instance.AtivarCheckpoint(
-                bossCheckpoint,
-                mainCamera
-            );
-        }
-
         StartCoroutine(StartBossTransition(other.transform));
     }
 
@@ -56,10 +46,10 @@ public class BossTrigger : MonoBehaviour
         if (cameraFollow != null)
             cameraFollow.enabled = false;
 
-        // Posição inicial da câmera
+        // Posição atual da câmera
         Vector3 startPosition = mainCamera.transform.position;
 
-        // Posição final da câmera
+        // Destino da câmera
         Vector3 targetPosition = new Vector3(
             bossSpawn.position.x,
             startPosition.y,
@@ -74,7 +64,6 @@ public class BossTrigger : MonoBehaviour
             elapsed += Time.deltaTime;
 
             float t = elapsed / transitionDuration;
-
             t = Mathf.SmoothStep(0f, 1f, t);
 
             mainCamera.transform.position = Vector3.Lerp(
@@ -86,12 +75,10 @@ public class BossTrigger : MonoBehaviour
             yield return null;
         }
 
-        // Garante que a câmera chegou ao destino
+        // Garante a posição final
         mainCamera.transform.position = targetPosition;
 
-        // O Player NÃO é movido.
-        // Ele permanece onde estava quando chegou na FinishLine.
-
+        // Player permanece onde estava
         if (playerRb != null)
             playerRb.linearVelocity = Vector2.zero;
 
@@ -100,5 +87,10 @@ public class BossTrigger : MonoBehaviour
             playerMovement.enabled = true;
 
         Debug.Log("Boss Fight começou!");
+    }
+
+    public void ResetTrigger()
+    {
+        activated = false;
     }
 }
