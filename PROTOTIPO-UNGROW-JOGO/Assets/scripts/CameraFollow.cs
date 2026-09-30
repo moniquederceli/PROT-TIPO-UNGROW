@@ -15,23 +15,25 @@ public class CameraFollow : MonoBehaviour
         if (player == null)
             return;
 
-        // Posição horizontal que a câmera gostaria de ter
         float targetX = player.position.x + offsetX;
 
-        // Calcula metade da largura que a câmera enxerga
-        float cameraHalfWidth = Camera.main.orthographicSize * Camera.main.aspect;
+        float cameraHalfWidth =
+            Camera.main.orthographicSize * Camera.main.aspect;
 
-        // Se existir um StartLimit, impede a câmera de passar dele
         if (startLimit != null)
         {
-            Collider2D limitCollider = startLimit.GetComponent<Collider2D>();
+            Collider2D limitCollider =
+                startLimit.GetComponent<Collider2D>();
 
             if (limitCollider != null)
             {
                 float minimumCameraX =
                     limitCollider.bounds.max.x + cameraHalfWidth;
 
-                targetX = Mathf.Max(targetX, minimumCameraX);
+                targetX = Mathf.Max(
+                    targetX,
+                    minimumCameraX
+                );
             }
         }
 
@@ -47,4 +49,14 @@ public class CameraFollow : MonoBehaviour
             smoothSpeed * Time.deltaTime
         );
     }
+
+    public void ChangeStartLimit(Transform newStartLimit)
+{
+    startLimit = newStartLimit;
+
+    Debug.Log(
+        "Novo StartLimit ativado: " +
+        newStartLimit.name
+    );
+}
 }

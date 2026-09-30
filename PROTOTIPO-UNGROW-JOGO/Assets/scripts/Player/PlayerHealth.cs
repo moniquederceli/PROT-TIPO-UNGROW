@@ -78,43 +78,30 @@ public class PlayerHealth : MonoBehaviour
 
 void RespawnAtCheckpoint()
 {
-    // Volta para o checkpoint
     transform.position =
         CheckpointManager.Instance.GetCheckpointPosition();
 
-    // Para o Rigidbody
     Rigidbody2D rb = GetComponent<Rigidbody2D>();
 
     if (rb != null)
         rb.linearVelocity = Vector2.zero;
 
-    // Volta a câmera para a posição antes da transição
     CheckpointManager.Instance.RestaurarCamera();
 
-    // Liga novamente o CameraFollow
     CameraFollow cameraFollow =
         Camera.main.GetComponent<CameraFollow>();
 
     if (cameraFollow != null)
         cameraFollow.enabled = true;
 
-    // Reseta o BossTrigger
-    BossTrigger bossTrigger =
-    FindAnyObjectByType<BossTrigger>();
-
-    if (bossTrigger != null)
-        bossTrigger.ResetTrigger();
-
-    // Recupera a vida
     currentHealth = maxHealth;
     canTakeDamage = true;
 
     if (livesUI != null)
-{
-    livesUI.ResetLives();
-}
+    {
+        livesUI.ResetLives();
+    }
 
-    // Permite o movimento novamente
     PlayerMovement movement =
         GetComponent<PlayerMovement>();
 

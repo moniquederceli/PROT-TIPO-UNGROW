@@ -17,12 +17,14 @@ public class CheckpointManager : MonoBehaviour
     {
         checkpoint = novoCheckpoint;
 
-        // Guarda a posição da câmera antes da transição para o Boss
         cameraPosition = Camera.main.transform.position;
 
         checkpointAtivo = true;
 
-        Debug.Log("Checkpoint ativado!");
+        Debug.Log(
+            "Checkpoint ativado: " +
+            checkpoint.name
+        );
     }
 
     public bool TemCheckpoint()
