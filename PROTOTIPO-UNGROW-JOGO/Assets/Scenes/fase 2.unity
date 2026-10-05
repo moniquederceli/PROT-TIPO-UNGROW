@@ -351,6 +351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossTrigger
   bossSpawn: {fileID: 1730874016}
+  bossMovement: {fileID: 0}
   mainCamera: {fileID: 519420031}
   cameraFollow: {fileID: 519420033}
   playerMovement: {fileID: 805356754}
@@ -2671,7 +2672,7 @@ GameObject:
   - component: {fileID: 1449457100}
   - component: {fileID: 1449457099}
   - component: {fileID: 1449457098}
-  - component: {fileID: 1449457097}
+  - component: {fileID: 1449457101}
   - component: {fileID: 1449457096}
   m_Layer: 0
   m_Name: Boss2
@@ -2708,20 +2709,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDamage
   damage: 1
---- !u!114 &1449457097
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1449457094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32fa4b8befd55ad42b6c4dad51c8b0ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
-  distanciaMaxima: 0.5
-  velocidade: 3
 --- !u!50 &1449457098
 Rigidbody2D:
   serializedVersion: 5
@@ -2730,7 +2717,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1449457094}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -2747,8 +2734,8 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!61 &1449457099
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2855,6 +2842,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &1449457101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449457094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2d9032421b88544db7faa71c0581e49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossMovement
+  distanciaMaxima: 0.5
+  velocidade: 3
 --- !u!1 &1538428909
 GameObject:
   m_ObjectHideFlags: 0

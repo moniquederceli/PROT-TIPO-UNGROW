@@ -50,65 +50,73 @@ public class PlayerHealth : MonoBehaviour
     {
         Time.timeScale = 0f;
 
-    yield return new WaitForSecondsRealtime(
-        livesUI.deathAnimationTime
-    );
+        yield return new WaitForSecondsRealtime(
+            livesUI.deathAnimationTime
+        );
 
-    Time.timeScale = 1f;
+        Time.timeScale = 1f;
 
-    Die();
+        Die();
     }
 
     public void Die()
-{
-    Debug.Log("PLAYER MORREU!");
-
-    if (CheckpointManager.Instance != null &&
-        CheckpointManager.Instance.TemCheckpoint())
     {
-        RespawnAtCheckpoint();
-    }
-    else
-    {
-        SceneManager.LoadScene(
-            SceneManager.GetActiveScene().name
-        );
-    }
-}
+        Debug.Log("PLAYER MORREU!");
 
-void RespawnAtCheckpoint()
-{
-    transform.position =
-        CheckpointManager.Instance.GetCheckpointPosition();
-
-    Rigidbody2D rb = GetComponent<Rigidbody2D>();
-
-    if (rb != null)
-        rb.linearVelocity = Vector2.zero;
-
-    CheckpointManager.Instance.RestaurarCamera();
-
-    CameraFollow cameraFollow =
-        Camera.main.GetComponent<CameraFollow>();
-
-    if (cameraFollow != null)
-        cameraFollow.enabled = true;
-
-    currentHealth = maxHealth;
-    canTakeDamage = true;
-
-    if (livesUI != null)
-    {
-        livesUI.ResetLives();
+        if (CheckpointManager.Instance != null &&
+            CheckpointManager.Instance.TemCheckpoint())
+        {
+            RespawnAtCheckpoint();
+        }
+        else
+        {
+            SceneManager.LoadScene(
+                SceneManager.GetActiveScene().name
+            );
+        }
     }
 
-    PlayerMovement movement =
-        GetComponent<PlayerMovement>();
+    void RespawnAtCheckpoint()
+    {
+        transform.position =
+            CheckpointManager.Instance.GetCheckpointPosition();
 
-    if (movement != null)
-        movement.enabled = true;
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
 
-    Debug.Log("Player voltou para o checkpoint!");
-}
+        if (rb != null)
+            rb.linearVelocity = Vector2.zero;
 
+        CheckpointManager.Instance.RestaurarCamera();
+
+        CameraFollow cameraFollow =
+            Camera.main.GetComponent<CameraFollow>();
+
+        if (cameraFollow != null)
+            cameraFollow.enabled = true;
+
+        // RESETA A ENTRADA DA BOSS FIGHT
+        BossTrigger bossTrigger =
+            FindAnyObjectByType<BossTrigger>();
+
+        if (bossTrigger != null)
+        {
+            bossTrigger.ResetTrigger();
+        }
+
+        currentHealth = maxHealth;
+        canTakeDamage = true;
+
+        if (livesUI != null)
+        {
+            livesUI.ResetLives();
+        }
+
+        PlayerMovement movement =
+            GetComponent<PlayerMovement>();
+
+        if (movement != null)
+            movement.enabled = true;
+
+        Debug.Log("Player voltou para o checkpoint!");
+    }
 }

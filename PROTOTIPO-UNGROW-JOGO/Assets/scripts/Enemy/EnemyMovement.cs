@@ -4,12 +4,14 @@ public class EnemyMovement : MonoBehaviour
 {
     [Header("Configurações de Movimento")]
     [Tooltip("O quão longe ele vai para os lados a partir do centro.")]
-    public float distanciaMaxima = 0.5f; 
-    
+    public float distanciaMaxima = 0.5f;
+
     [Tooltip("A velocidade do vai e vem.")]
-    public float velocidade = 3f;       
+    public float velocidade = 3f;
 
     private Vector3 posicaoInicial;
+
+    private float tempoMovimento = 0f;
 
     void Start()
     {
@@ -19,14 +21,29 @@ public class EnemyMovement : MonoBehaviour
 
     void Update()
     {
-        // Calcula o movimento de vai e vem usando a função matemática Seno
-        float deslocamento = Mathf.Sin(Time.time * velocidade) * distanciaMaxima;
+        // Conta o tempo do movimento
+        tempoMovimento += Time.deltaTime;
 
-        // Atualiza a posição do inimigo somando o deslocamento apenas no eixo X
+        // Calcula o movimento de vai e vem
+        float deslocamento =
+            Mathf.Sin(tempoMovimento * velocidade) *
+            distanciaMaxima;
+
         transform.position = new Vector3(
-            posicaoInicial.x + deslocamento, 
-            transform.position.y, 
-            transform.position.z
+            posicaoInicial.x + deslocamento,
+            posicaoInicial.y,
+            posicaoInicial.z
         );
+    }
+
+    public void ResetMovement()
+    {
+        // Reinicia o tempo do movimento
+        tempoMovimento = 0f;
+
+        // Volta exatamente para a posição inicial
+        transform.position = posicaoInicial;
+
+        Debug.Log("inimigo reiniciado!");
     }
 }

@@ -5,6 +5,7 @@ public class BossTrigger : MonoBehaviour
 {
     [Header("Boss")]
     public Transform bossSpawn;
+    public BossMovement bossMovement;
 
     [Header("Camera")]
     public Camera mainCamera;
@@ -89,8 +90,13 @@ public class BossTrigger : MonoBehaviour
         Debug.Log("Boss Fight começou!");
     }
 
-    public void ResetTrigger()
+   public void ResetTrigger()
+{
+    activated = false;
+
+    if (bossMovement != null)
     {
-        activated = false;
+        bossMovement.ResetBoss();
     }
+}
 }

@@ -58,14 +58,26 @@ public class LivesUI : MonoBehaviour
     }
 
     public void ResetLives()
-    {
-        currentLife = flowers.Length;
+{
+    currentLife = flowers.Length;
 
-        foreach (Image flower in flowers)
+    foreach (Image flower in flowers)
+    {
+        flower.gameObject.SetActive(true);
+
+        Animator animator = flower.GetComponent<Animator>();
+
+        if (animator != null)
         {
-            flower.gameObject.SetActive(true);
+            animator.Rebind();
+            animator.Update(0f);
         }
 
-        Debug.Log("Vidas restauradas!");
+        Color color = flower.color;
+        color.a = 1f;
+        flower.color = color;
     }
+
+    Debug.Log("Vidas restauradas!");
+}
 }
