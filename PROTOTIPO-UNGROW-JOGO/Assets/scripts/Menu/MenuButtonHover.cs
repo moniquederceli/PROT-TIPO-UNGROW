@@ -14,8 +14,8 @@ public class MenuButtonHover : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
        arrowRect.position = buttonRect.TransformPoint(
     new Vector3(
-        -buttonRect.rect.width / 2 - 10f,
-        0f,
+        -buttonRect.rect.width / 2 - 0f,
+        -5f,
         0f
     )
 );
